@@ -4,7 +4,7 @@
 
 #let writing_lines = 4
 
-#set page(margin: (x: 0.4cm, y: 0.5cm))
+#set page(height: 239.6mm, width: 179.7mm, margin: (x: 0.4cm, y: 0.5cm))
 
 #show table.cell.where(x: 0): set text(font: "Bad Script", size: 12pt)
 
