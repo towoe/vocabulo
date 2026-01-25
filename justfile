@@ -1,2 +1,2 @@
 create file:
-    typst compile --root=.. --input word-list=../{{ file }} templates/ru-gray.typ {{ file }}.pdf
+    typst compile --pdf-standard=2.0 --input word-list={{ file }} template-writing-ru.typ {{ file }}.pdf
