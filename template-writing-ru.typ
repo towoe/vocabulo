@@ -28,7 +28,7 @@
   for _ in range(writing_lines) {
     rows.push([])
     rows.push(table.cell(colspan: 2, stroke: (
-      bottom: (paint: rgb("777777"), thickness: 0.6pt, dash: "dotted"),
+      bottom: (paint: rgb("777777"), thickness: 1pt, dash: "dotted"),
     ))[#box(height: 1em)])
     rows.push([])
   }
