@@ -1,13 +1,53 @@
 #let word_list = sys.inputs.at("word-list", default: "words.csv")
 #let words = csv(word_list)
 
+#set page(height: 239.6mm, width: 179.7mm, margin: (x: 1cm, y: 1cm))
 
 #let writing_lines = 4
 
-#set page(height: 239.6mm, width: 179.7mm, margin: (x: 0cm, y: 1cm))
-
 #show table.cell.where(x: 0): set text(font: "Bad Script", size: 12pt)
 
+// Outline for links to the different sections
+#outline(
+  title: "",
+)
+
+// Style every other row
+#set table(
+  fill: (x, y) => {
+    if calc.even(y) { rgb("efefef") } else { white }
+  },
+  stroke: none,
+)
+
+#pagebreak()
+
+=== Русские слова
+// List only the words on the left
+#table(
+  columns: (1fr, 1fr),
+  inset: 10pt,
+  align: horizon,
+  ..words.map(((ru, de)) => (ru, "")).flatten(),
+)
+
+#pagebreak()
+
+
+=== Deutsche Wörter
+// List only the words on the right
+#table(
+  columns: (1fr, 1fr),
+  inset: 10pt,
+  align: horizon,
+  ..words.map(((ru, de)) => ("", de)).flatten(),
+)
+
+#pagebreak()
+
+#set page(margin: (x: 0cm, y: 1cm))
+
+// Highlight first row
 #set table(
   fill: (x, y) => {
     if y == 0 { rgb("efefef") } else { white }
@@ -15,6 +55,8 @@
   stroke: none,
 )
 
+// Tables with space for writing
+=== Training
 #for (ru, de) in words {
   // Create a table for each entry in word list
   // The words
@@ -42,3 +84,23 @@
     )
   ])
 }
+
+#pagebreak()
+#set page(margin: (x: 1cm, y: 1cm))
+
+// Overview table of all words
+=== Übersicht
+// Style every other row
+#set table(
+  fill: (x, y) => {
+    if calc.even(y) { rgb("efefef") } else { white }
+  },
+  stroke: none,
+)
+
+#table(
+  columns: (1fr, 1fr),
+  inset: 10pt,
+  align: horizon,
+  ..words.flatten()
+)
