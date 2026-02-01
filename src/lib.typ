@@ -13,17 +13,53 @@
 )
 
 // Colors
-#let voc-grey = rgb("efefef")
-#let voc-white = rgb("ffffff")
-#let voc-dark-grey = rgb("777777")
+#let voc-grey = luma(240)
+#let voc-grey-light = luma(140)
+#let voc-grey-dark = luma(30)
 #let voc-blue = rgb("ddeeff")
+#let voc-blue-light = rgb("f2fcff")
+#let voc-blue-dark = rgb("223344")
+#let voc-green = rgb("e8f5e9")
+#let voc-green-dark = rgb("2d4a2f")
+
+// Themes
+#let themes = (
+  light: (
+    text: black,
+    background: white,
+    background-alt: voc-grey,
+    accent: voc-grey,
+    separator: voc-grey-light,
+  ),
+  dark: (
+    text: white,
+    background: black,
+    background-alt: luma(20),
+    accent: voc-blue-dark,
+    separator: voc-grey-dark,
+  ),
+  blue: (
+    text: black,
+    background: white,
+    background-alt: voc-blue-light,
+    accent: voc-blue,
+    separator: voc-grey-light,
+  ),
+  green: (
+    text: black,
+    background: white,
+    background-alt: voc-green,
+    accent: voc-green,
+    separator: voc-grey-light,
+  ),
+)
 
 // 2-column table with alternating row colors
 // Table width is reduced
-#let table-alternate(words) = {
+#let table-alternate(words, theme) = {
   set table(
     fill: (_, y) => {
-      if calc.even(y) { voc-grey } else { voc-white }
+      if calc.even(y) { theme.background-alt } else { theme.background }
     },
     stroke: none,
   )
@@ -54,18 +90,18 @@
 }
 
 // Create a page with a table and both columns filled
-#let table-full(words) = {
-  table-alternate(words-masked(words))
+#let table-full(words, theme) = {
+  table-alternate(words-masked(words), theme)
 }
 
 // Create a page with a table with only the left column
-#let table-left(words) = {
-  table-alternate(words-masked(words, mask: "right"))
+#let table-left(words, theme) = {
+  table-alternate(words-masked(words, mask: "right"), theme)
 }
 
 // Create a page with a table with only the right column
-#let table-right(words) = {
-  table-alternate(words-masked(words, mask: "left"))
+#let table-right(words, theme) = {
+  table-alternate(words-masked(words, mask: "left"), theme)
 }
 
 // Table for writing practice
@@ -73,10 +109,10 @@
 // Left word is shifted to the right.
 // Variable number of writing lines with dotted underlines.
 // The table is not allowed to break and span across pages.
-#let writing-table(word-pair, num_lines: 4) = {
+#let writing-table(word-pair, num_lines: 4, theme) = {
   set table(
     fill: (_, y) => {
-      if y == 0 { voc-blue } else { white }
+      if y == 0 { theme.accent } else { theme.background }
     },
     stroke: none,
   )
@@ -87,7 +123,7 @@
   for _ in range(num_lines) {
     lines.push(
       table.cell(colspan: 2, stroke: (
-        bottom: (paint: voc-dark-grey, thickness: 0.1em, dash: "dotted"),
+        bottom: (paint: theme.separator, thickness: 0.1em, dash: "dotted"),
       ))[#box(height: 1em)],
     )
   }
@@ -104,9 +140,9 @@
 }
 
 // For each word pair, create a writing practice table
-#let tables-writing(words, num_writing_lines) = {
+#let tables-writing(words, num_writing_lines, theme) = {
   for word-pair in words {
-    writing-table(word-pair, num_lines: num_writing_lines)
+    writing-table(word-pair, num_lines: num_writing_lines, theme)
   }
 }
 

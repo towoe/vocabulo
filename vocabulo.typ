@@ -7,10 +7,11 @@
   num_writing_lines: 4,
   bar_position: "top",
   seed: none,
+  theme: "light",
 ) = {
   import "src/lib.typ": (
     dev-format, shuffle-words, table-full, table-left, table-right,
-    tables-writing,
+    tables-writing, themes,
   )
 
   let specs = dev-format.at(format, default: none)
@@ -43,6 +44,16 @@
   show outline.entry.where(level: 2): set block(inset: 1em)
   set outline.entry(fill: none)
 
+  // Resolve theme
+  let theme = if type(theme) == str {
+    themes.at(theme, default: themes.light)
+  } else {
+    theme
+  }
+  // Use theme text color globally
+  set text(fill: theme.text)
+  set page(fill: theme.background)
+
   // Shuffle words if a seed is provided
   let words = if seed != none {
     shuffle-words(words, seed)
@@ -63,14 +74,14 @@
   // ========================
   // Start of content pages
   heading(level: 2, lang_learning)
-  table-left(words)
+  table-left(words, theme)
 
   heading(level: 2, [#lang_learning - #lang_base])
-  table-full(words)
+  table-full(words, theme)
 
   heading(level: 2, lang_base)
-  table-right(words)
+  table-right(words, theme)
 
   heading(level: 2, [Writing practice])
-  tables-writing(words, num_writing_lines)
+  tables-writing(words, num_writing_lines, theme)
 }
