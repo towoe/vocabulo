@@ -13,20 +13,26 @@
     tables-writing,
   )
 
+  let specs = dev-format.at(format, default: none)
   // Create a page matching the device size
-  let specs = dev-format.at(format)
-  let (width, height) = (specs.width, specs.height)
 
   // No margin by default, add extra space for an optional bar
   let margin = (top: 0pt, bottom: 0pt, left: 0pt, right: 0pt)
-  if bar_position != none {
+  if specs != none and bar_position != none {
     margin.insert(bar_position, specs.bar)
   }
+
+  // Create parameters for page configuration
+  let page-params = if specs != none {
+    // Custom device format with explicit dimensions
+    (width: specs.width, height: specs.height, margin: margin, flipped: flipped)
+  } else {
+    // Standard paper size - let Typst handle it
+    (paper: format, margin: margin, flipped: flipped)
+  }
+  // Page setup
   set page(
-    width: width,
-    height: height,
-    margin: margin,
-    flipped: flipped,
+    ..page-params,
   )
 
   // Do not show the header, use it only for the outline
