@@ -1,7 +1,6 @@
 #let vocabulo(
   words,
-  lang_learning,
-  lang_base,
+  langs,
   format: "rmpp",
   flipped: false,
   num_writing_lines: 4,
@@ -61,6 +60,8 @@
     words
   }
 
+  let (lang-learning, lang-native) = langs
+
   // ========================
   // Outline in the center of the page
   align(horizon)[
@@ -73,13 +74,13 @@
 
   // ========================
   // Start of content pages
-  heading(level: 2, lang_learning)
+  heading(level: 2, lang-learning)
   table-left(words, theme)
 
-  heading(level: 2, [#lang_learning - #lang_base])
+  heading(level: 2, [#lang-learning - #lang-native])
   table-full(words, theme)
 
-  heading(level: 2, lang_base)
+  heading(level: 2, lang-native)
   table-right(words, theme)
 
   heading(level: 2, [Writing practice])
