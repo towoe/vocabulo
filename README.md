@@ -85,8 +85,9 @@ typst compile --input words=day-one.csv main.typ day-one.pdf
 typst compile --input words=day-two.csv main.typ day-two.pdf
 ```
 
-So it is not necessary to change the `main.typ` anymore, just provide a new set
-of words to create new training material.
+This overwrites the filepath variable and loads in the content of the files. So
+it is not necessary to change the `main.typ` anymore, just provide a new set of
+words to create new training material.
 
 ### Template Content
 
