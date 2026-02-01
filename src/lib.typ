@@ -109,3 +109,13 @@
     writing-table(word-pair, num_lines: num_writing_lines)
   }
 }
+
+#let shuffle-words(words, seed) = {
+  let seed = decimal(seed)
+  let shuffled = words
+  for i in range(shuffled.len() - 1, 0, step: -1) {
+    let j = calc.rem(calc.floor(seed / (i + 1)), i + 1)
+    (shuffled.at(i), shuffled.at(j)) = (shuffled.at(j), shuffled.at(i))
+  }
+  shuffled
+}

@@ -6,9 +6,11 @@
   flipped: false,
   num_writing_lines: 4,
   bar_position: "top",
+  seed: none,
 ) = {
   import "src/lib.typ": (
-    dev-format, table-full, table-left, table-right, tables-writing,
+    dev-format, shuffle-words, table-full, table-left, table-right,
+    tables-writing,
   )
 
   // Create a page matching the device size
@@ -34,6 +36,13 @@
   show outline: set text(size: 1.5em)
   show outline.entry.where(level: 2): set block(inset: 1em)
   set outline.entry(fill: none)
+
+  // Shuffle words if a seed is provided
+  let words = if seed != none {
+    shuffle-words(words, seed)
+  } else {
+    words
+  }
 
   // ========================
   // Outline in the center of the page
