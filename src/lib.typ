@@ -140,9 +140,9 @@
 }
 
 // For each word pair, create a writing practice table
-#let tables-writing(words, num_writing_lines, theme) = {
+#let tables-writing(words, num-writing-lines, theme) = {
   for word-pair in words {
-    writing-table(word-pair, num_lines: num_writing_lines, theme)
+    writing-table(word-pair, num_lines: num-writing-lines, theme)
   }
 }
 

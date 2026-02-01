@@ -7,6 +7,8 @@ Based on a list of training words, the template creates an overview of the word
 pairs. It also creates a section for each word pair with space to practice the
 word.
 
+![thumbnail](thumbnail.png)
+
 ### Features
 
 - Custom sizes for paper tablets (margin for bar overlay)
@@ -19,9 +21,7 @@ word.
 ### Basic Example
 
 To get started use `typst init '@preview/vocabulo:0.1.0'`.
-The edit the `main.typ` and specify the words you want to train.
-(By default, the template will fill in the `words` variable by loading the
-content from a `words.csv` file.)
+Then edit the `main.typ` and specify the words you want to train.
 
 ```typst
 #import "@preview/vocabulo:0.1.0": *
@@ -55,7 +55,7 @@ Define the `main.typ` file:
 #show: vocabulo(
   words,
   ("English", "Deutsch"),  // (learning language, native language)
-  num_writing_lines: 6,
+  num-writing-lines: 6,
   seed: 40,
   theme: "blue",
 )
@@ -89,6 +89,10 @@ This overwrites the filepath variable and loads in the content of the files. So
 it is not necessary to change the `main.typ` anymore, just provide a new set of
 words to create new training material.
 
+Also see [examples](examples) for a [minimal example](examples/minimal.typ)
+([pdf](examples/minimal.pdf)) and one showing [more features](examples/full.typ)
+([pdf](examples/full.pdf)).
+
 ### Template Content
 
 The template will create different sections:
@@ -113,8 +117,8 @@ also work across multiple pages.
   - Custom device formats: `"rmpp"`, `"rmpm"`, `"rm2"`, `"apple_ipad_11"`
   - Standard paper sizes: `"a4"`, `"a5"`, `"a6"`, `"letter"`, etc.
 - `flipped` (boolean, default: `false`): Rotate the page 90 degrees (landscape orientation)
-- `num_writing_lines` (integer, default: `4`): Number of practice lines per word in the writing section
-- `bar_position` (string, default: `"top"`): Position of the device bar/margin. Options: `"top"`, `"bottom"`, `"left"`, `"right"`, or `none`
+- `num-writing-lines` (integer, default: `4`): Number of practice lines per word in the writing section
+- `bar-pos` (string, default: `"top"`): Position of the device bar/margin. Options: `"top"`, `"bottom"`, `"left"`, `"right"`, or `none`
 - `seed` (integer, optional): Random seed for shuffling word order. If provided, words will be shuffled consistently. Try different values to change the order.
 - `theme` (string or dictionary, default: `"default"`): Color theme for the document
 

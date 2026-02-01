@@ -3,8 +3,8 @@
   langs,
   format: "rmpp",
   flipped: false,
-  num_writing_lines: 4,
-  bar_position: "top",
+  num-writing-lines: 4,
+  bar-pos: "top",
   seed: none,
   theme: "light",
 ) = {
@@ -18,8 +18,8 @@
 
   // No margin by default, add extra space for an optional bar
   let margin = (top: 0pt, bottom: 0pt, left: 0pt, right: 0pt)
-  if specs != none and bar_position != none {
-    margin.insert(bar_position, specs.bar)
+  if specs != none and bar-pos != none {
+    margin.insert(bar-pos, specs.bar)
   }
 
   // Create parameters for page configuration
@@ -84,5 +84,5 @@
   table-right(words, theme)
 
   heading(level: 2, [Writing practice])
-  tables-writing(words, num_writing_lines, theme)
+  tables-writing(words, num-writing-lines, theme)
 }

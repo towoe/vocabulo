@@ -15,8 +15,8 @@
   ("English", "Deutsch"),
   format: "rmpp",
   flipped: true,
-  num_writing_lines: 6,
-  bar_position: "left",
+  num-writing-lines: 6,
+  bar-pos: "left",
   seed: 42,
   theme: my-theme,
 )
