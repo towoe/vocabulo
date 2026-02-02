@@ -121,6 +121,7 @@ also work across multiple pages.
 - `bar-pos` (string, default: `"top"`): Position of the device bar/margin. Options: `"top"`, `"bottom"`, `"left"`, `"right"`, or `none`
 - `seed` (integer, optional): Random seed for shuffling word order. If provided, words will be shuffled consistently. Try different values to change the order.
 - `theme` (string or dictionary, default: `"light"`): Color theme for the document
+- `sections` (array, default: `("outline", "left", "full", "right", "writing")`): List of sections to include. Allows to customize the generated content.
 
 
 ### Themes
