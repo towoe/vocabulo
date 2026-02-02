@@ -16,11 +16,11 @@
 #let voc-grey = luma(240)
 #let voc-grey-light = luma(140)
 #let voc-grey-dark = luma(30)
-#let voc-blue = rgb("ddeeff")
-#let voc-blue-light = rgb("f2fcff")
+#let voc-blue = color.hsl(210deg, 100%, 90%)
+#let voc-blue-light = color.hsl(210deg, 90%, 93%)
 #let voc-blue-dark = rgb("223344")
-#let voc-green = rgb("e8f5e9")
-#let voc-green-dark = rgb("2d4a2f")
+#let voc-green = color.hsl(120deg, 40%, 80%)
+#let voc-green-alt = color.hsl(110deg, 35%, 80%)
 
 // Themes
 #let themes = (
@@ -49,7 +49,7 @@
     text: black,
     background: white,
     background-alt: voc-green,
-    accent: voc-green,
+    accent: voc-green-alt,
     separator: voc-grey-light,
   ),
 )
