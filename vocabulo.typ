@@ -7,6 +7,7 @@
   bar-pos: "top",
   seed: none,
   theme: "light",
+  links: true,
 ) = {
   import "src/lib.typ": (
     dev-format, shuffle-words, table-full, table-left, table-right,
@@ -75,13 +76,13 @@
   // ========================
   // Start of content pages
   heading(level: 2, lang-learning)
-  table-left(words, theme)
+  table-left(words, theme, links: links)
 
   heading(level: 2, [#lang-learning - #lang-native])
-  table-full(words, theme)
+  table-full(words, theme, links: links)
 
   heading(level: 2, lang-native)
-  table-right(words, theme)
+  table-right(words, theme, links: links)
 
   heading(level: 2, [Writing practice])
   tables-writing(words, num-writing-lines, theme)

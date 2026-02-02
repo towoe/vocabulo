@@ -56,7 +56,7 @@
 
 // 2-column table with alternating row colors
 // Table width is reduced
-#let table-alternate(words, theme) = {
+#let table-alternate(words, theme, links: true) = {
   set table(
     fill: (_, y) => {
       if calc.even(y) { theme.background-alt } else { theme.background }
@@ -67,12 +67,21 @@
   let cells = words
     .enumerate()
     .map(((i, (left, right))) => (
-      table.cell(colspan: 2)[#link(label("writing-" + str(i)), [#grid(
-        columns: (1fr, 1fr),
-        inset: 1em,
-        align: horizon,
-        left, right,
-      )])]
+      table.cell(colspan: 2)[#if links {
+        link(label("writing-" + str(i)), [#grid(
+          columns: (1fr, 1fr),
+          inset: 1em,
+          align: horizon,
+          left, right,
+        )])
+      } else {
+        grid(
+          columns: (1fr, 1fr),
+          inset: 1em,
+          align: horizon,
+          left, right,
+        )
+      }]
     ))
     .flatten()
 
@@ -102,18 +111,18 @@
 }
 
 // Create a page with a table and both columns filled
-#let table-full(words, theme) = {
-  table-alternate(words-masked(words), theme)
+#let table-full(words, theme, links: true) = {
+  table-alternate(words-masked(words), theme, links: links)
 }
 
 // Create a page with a table with only the left column
-#let table-left(words, theme) = {
-  table-alternate(words-masked(words, mask: "right"), theme)
+#let table-left(words, theme, links: true) = {
+  table-alternate(words-masked(words, mask: "right"), theme, links: links)
 }
 
 // Create a page with a table with only the right column
-#let table-right(words, theme) = {
-  table-alternate(words-masked(words, mask: "left"), theme)
+#let table-right(words, theme, links: true) = {
+  table-alternate(words-masked(words, mask: "left"), theme, links: links)
 }
 
 // Table for writing practice
