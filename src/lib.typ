@@ -147,7 +147,7 @@
 }
 
 #let shuffle-words(words, seed) = {
-  let seed = decimal(seed)
+  let seed = datetime.today().day() * decimal(seed)
   let shuffled = words
   for i in range(shuffled.len() - 1, 0, step: -1) {
     let j = calc.rem(calc.floor(seed / (i + 1)), i + 1)
