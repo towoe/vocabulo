@@ -64,12 +64,24 @@
     stroke: none,
   )
 
+  let cells = words
+    .enumerate()
+    .map(((i, (left, right))) => (
+      table.cell(colspan: 2)[#link(label("writing-" + str(i)), [#grid(
+        columns: (1fr, 1fr),
+        inset: 1em,
+        align: horizon,
+        left, right,
+      )])]
+    ))
+    .flatten()
+
   block(inset: (x: 2em))[
     #table(
       columns: (1fr, 1fr),
-      inset: 1em,
+      inset: 0pt,
       align: horizon,
-      ..words,
+      ..cells,
     )
   ]
   pagebreak()
@@ -77,7 +89,8 @@
 
 #let words-masked(words, mask: none) = {
   words
-    .map(((a, b)) => {
+    .enumerate()
+    .map(((i, (a, b))) => {
       if mask == "right" {
         (a, "")
       } else if mask == "left" {
@@ -86,7 +99,6 @@
         (a, b)
       }
     })
-    .flatten()
 }
 
 // Create a page with a table and both columns filled
@@ -109,7 +121,7 @@
 // Left word is shifted to the right.
 // Variable number of writing lines with dotted underlines.
 // The table is not allowed to break and span across pages.
-#let writing-table(word-pair, num_lines: 4, theme) = {
+#let writing-table(index, word-pair, num_lines: 4, theme) = {
   set table(
     fill: (_, y) => {
       if y == 0 { theme.accent } else { theme.background }
@@ -118,7 +130,7 @@
   )
 
   let (word, translation) = word-pair
-  let lines = ([#h(1em) #word], translation)
+  let lines = ([#h(1em) #word #label("writing-" + str(index))], translation)
 
   for _ in range(num_lines) {
     lines.push(
@@ -135,14 +147,13 @@
       align: horizon,
       ..lines,
     )
-    // ]
   ])
 }
 
 // For each word pair, create a writing practice table
 #let tables-writing(words, num-writing-lines, theme) = {
-  for word-pair in words {
-    writing-table(word-pair, num_lines: num-writing-lines, theme)
+  for (i, word-pair) in words.enumerate() {
+    writing-table(i, word-pair, num_lines: num-writing-lines, theme)
   }
 }
 
