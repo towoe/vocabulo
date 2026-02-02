@@ -8,6 +8,7 @@
   seed: none,
   theme: "light",
   links: true,
+  sections: ("outline", "left", "full", "right", "writing"),
 ) = {
   import "src/lib.typ": (
     dev-format, shuffle-words, table-full, table-left, table-right,
@@ -63,27 +64,41 @@
 
   let (lang-learning, lang-native) = langs
 
-  // ========================
-  // Outline in the center of the page
-  align(horizon)[
-    #outline(
-      title: "",
-      target: heading.where(level: 2),
-    )
-  ]
-  pagebreak()
+  // Check if writing section exists for link validity
+  let has-writing = sections.contains("writing")
+  let enable-links = links and has-writing
 
   // ========================
-  // Start of content pages
-  heading(level: 2, lang-learning)
-  table-left(words, theme, links: links)
+  // Render sections based on the sections parameter
+  let writing-seen = false
+  for (i, section) in sections.enumerate() {
+    // Add pagebreak before sections (except the first one)
+    if i > 0 {
+      pagebreak()
+    }
 
-  heading(level: 2, [#lang-learning - #lang-native])
-  table-full(words, theme, links: links)
-
-  heading(level: 2, lang-native)
-  table-right(words, theme, links: links)
-
-  heading(level: 2, [Writing practice])
-  tables-writing(words, num-writing-lines, theme)
+    if section == "outline" {
+      // Outline in the center of the page
+      align(horizon)[
+        #outline(
+          title: "",
+          target: heading.where(level: 2),
+        )
+      ]
+    } else if section == "left" {
+      heading(level: 2, lang-learning)
+      table-left(words, theme, links: enable-links)
+    } else if section == "full" {
+      heading(level: 2, [#lang-learning - #lang-native])
+      table-full(words, theme, links: enable-links)
+    } else if section == "right" {
+      heading(level: 2, lang-native)
+      table-right(words, theme, links: enable-links)
+    } else if section == "writing" {
+      heading(level: 2, [Writing practice])
+      tables-writing(words, num-writing-lines, theme, labels: not writing-seen)
+      writing-seen = true
+    }
+  }
+}
 }

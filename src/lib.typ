@@ -40,7 +40,6 @@
       ..cells,
     )
   ]
-  pagebreak()
 }
 
 #let words-masked(words, mask: none) = {
@@ -77,7 +76,7 @@
 // Left word is shifted to the right.
 // Variable number of writing lines with dotted underlines.
 // The table is not allowed to break and span across pages.
-#let writing-table(index, word-pair, num_lines: 4, theme) = {
+#let writing-table(index, word-pair, num_lines: 4, theme, labels: true) = {
   set table(
     fill: (_, y) => {
       if y == 0 { theme.accent } else { theme.background }
@@ -86,7 +85,10 @@
   )
 
   let (word, translation) = word-pair
-  let lines = ([#h(1em) #word #label("writing-" + str(index))], translation)
+  let lines = (
+    [#h(1em) #word #if labels { label("writing-" + str(index)) }],
+    translation,
+  )
 
   for _ in range(num_lines) {
     lines.push(
@@ -107,9 +109,15 @@
 }
 
 // For each word pair, create a writing practice table
-#let tables-writing(words, num-writing-lines, theme) = {
+#let tables-writing(words, num-writing-lines, theme, labels: true) = {
   for (i, word-pair) in words.enumerate() {
-    writing-table(i, word-pair, num_lines: num-writing-lines, theme)
+    writing-table(
+      i,
+      word-pair,
+      num_lines: num-writing-lines,
+      theme,
+      labels: labels,
+    )
   }
 }
 
