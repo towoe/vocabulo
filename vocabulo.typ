@@ -7,7 +7,7 @@
   bar-pos: "top",
   seed: none,
   theme: "light",
-  links: true,
+  links: ("to-writing", "to-right"),
   sections: ("outline", "left", "full", "right", "writing"),
 ) = {
   import "src/lib.typ": (
@@ -64,13 +64,40 @@
 
   let (lang-learning, lang-native) = langs
 
+  // Create an array from the `links` parameter
+  let links = if type(links) == str {
+    (links,)
+  } else if links == none {
+    ()
+  } else {
+    links
+  }
+
   // Check if writing section exists for link validity
   let has-writing = sections.contains("writing")
-  let enable-links = links and has-writing
+  let enable-links-writing = links.contains("to-writing") and has-writing
+
+  let has-full = sections.contains("full")
+  let has-left = sections.contains("left")
+  let has-right = sections.contains("right")
+
+  // Determine backlink target based on links parameter and section availability
+  let backlink-target = if links.contains("to-full") and has-full {
+    "full"
+  } else if links.contains("to-left") and has-left {
+    "left"
+  } else if links.contains("to-right") and has-right {
+    "right"
+  } else {
+    none
+  }
+
+  let enable-backlinks = backlink-target != none
 
   // ========================
   // Render sections based on the sections parameter
   let writing-seen = false
+  let full-seen = false
   for (i, section) in sections.enumerate() {
     // Add pagebreak before sections (except the first one)
     if i > 0 {
@@ -87,16 +114,39 @@
       ]
     } else if section == "left" {
       heading(level: 2, lang-learning)
-      table-left(words, theme, links: enable-links)
+      table-left(
+        words,
+        theme,
+        links-to-writing: enable-links-writing,
+        set-label: backlink-target == "left",
+      )
     } else if section == "full" {
       heading(level: 2, [#lang-learning - #lang-native])
-      table-full(words, theme, links: enable-links)
+      table-full(
+        words,
+        theme,
+        links-to-writing: enable-links-writing,
+        set-label: not full-seen and enable-backlinks,
+      )
+      full-seen = true
     } else if section == "right" {
       heading(level: 2, lang-native)
-      table-right(words, theme, links: enable-links)
+      table-right(
+        words,
+        theme,
+        links-to-writing: enable-links-writing,
+        set-label: backlink-target == "right",
+      )
     } else if section == "writing" {
       heading(level: 2, [Writing practice])
-      tables-writing(words, num-writing-lines, theme, labels: not writing-seen)
+      tables-writing(
+        words,
+        num-writing-lines,
+        theme,
+        labels: not writing-seen,
+        backlinks: enable-backlinks,
+        backlink-target: backlink-target,
+      )
       writing-seen = true
     }
   }
