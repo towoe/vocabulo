@@ -11,8 +11,7 @@
   sections: ("outline", "left", "full", "right", "writing"),
 ) = {
   import "src/lib.typ": (
-    dev-format, shuffle-words, table-full, table-left, table-right,
-    tables-writing, themes,
+    dev-format, shuffle-words, table-vocab, tables-writing, themes,
   )
 
   let specs = dev-format.at(format, default: none)
@@ -73,15 +72,16 @@
     links
   }
 
-  // Check if writing section exists for link validity
+  // Check which sections exist
   let has-writing = sections.contains("writing")
-  let enable-links-writing = links.contains("to-writing") and has-writing
-
   let has-full = sections.contains("full")
   let has-left = sections.contains("left")
   let has-right = sections.contains("right")
 
-  // Determine backlink target based on links parameter and section availability
+  // Determine if forward links (to writing) should be created
+  let create-links-to-writing = links.contains("to-writing") and has-writing
+
+  // Determine backlink target based on user preference and section availability
   let backlink-target = if links.contains("to-full") and has-full {
     "full"
   } else if links.contains("to-left") and has-left {
@@ -92,7 +92,8 @@
     none
   }
 
-  let enable-backlinks = backlink-target != none
+  // ========================
+  // Render sections based on the sections parameter
 
   // ========================
   // Render sections based on the sections parameter
@@ -114,28 +115,30 @@
       ]
     } else if section == "left" {
       heading(level: 2, lang-learning)
-      table-left(
+      table-vocab(
         words,
         theme,
-        links-to-writing: enable-links-writing,
-        set-label: backlink-target == "left",
+        mode: "left",
+        links-to-writing: create-links-to-writing,
+        attach-label: backlink-target == "left",
       )
     } else if section == "full" {
       heading(level: 2, [#lang-learning - #lang-native])
-      table-full(
+      table-vocab(
         words,
         theme,
-        links-to-writing: enable-links-writing,
-        set-label: not full-seen and enable-backlinks,
+        mode: "full",
+        links-to-writing: create-links-to-writing,
+        attach-label: backlink-target == "full",
       )
-      full-seen = true
     } else if section == "right" {
       heading(level: 2, lang-native)
-      table-right(
+      table-vocab(
         words,
         theme,
-        links-to-writing: enable-links-writing,
-        set-label: backlink-target == "right",
+        mode: "right",
+        links-to-writing: create-links-to-writing,
+        attach-label: backlink-target == "right",
       )
     } else if section == "writing" {
       heading(level: 2, [Writing practice])
@@ -143,12 +146,9 @@
         words,
         num-writing-lines,
         theme,
-        labels: not writing-seen,
-        backlinks: enable-backlinks,
+        create-backlinks: backlink-target != none,
         backlink-target: backlink-target,
       )
-      writing-seen = true
     }
   }
-}
 }
