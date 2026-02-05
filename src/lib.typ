@@ -3,7 +3,12 @@
 
 // 2-column table with alternating row colors
 // Table width is reduced
-#let table-alternate(words, theme, links: true, set-label: none) = {
+#let table-alternate(
+  words,
+  theme,
+  links-to-writing: false,
+  attach-label: none,
+) = {
   set table(
     fill: (_, y) => {
       if calc.even(y) { theme.background-alt } else { theme.background }
@@ -14,7 +19,7 @@
   let cells = words
     .enumerate()
     .map(((i, (left, right))) => (
-      table.cell(colspan: 2)[#if links {
+      table.cell(colspan: 2)[#if links-to-writing {
         link(label("writing-" + str(i)), [#grid(
           columns: (1fr, 1fr),
           inset: 1em,
@@ -38,54 +43,38 @@
       inset: 0pt,
       align: horizon,
       ..cells,
-    )#if not set-label == none { label(set-label) }
+    )#if attach-label != none { label(attach-label) }
   ]
 }
 
-#let words-masked(words, mask: none) = {
+#let words-masked(words, mode: "full") = {
   words
     .enumerate()
     .map(((i, (a, b))) => {
-      if mask == "right" {
-        (a, "")
-      } else if mask == "left" {
+      if mode == "right" {
         ("", b)
+      } else if mode == "left" {
+        (a, "")
       } else {
         (a, b)
       }
     })
 }
 
-// Create a page with a table and both columns filled
-#let table-full(words, theme, links-to-writing: true, set-label: false) = {
-  let set-label = if set-label { "full" } else { none }
+// Unified table function that handles all vocabulary table types
+#let table-vocab(
+  words,
+  theme,
+  mode: "full",
+  links-to-writing: false,
+  attach-label: false,
+) = {
+  let label-name = if attach-label { mode } else { none }
   table-alternate(
-    words-masked(words),
+    words-masked(words, mode: mode),
     theme,
-    links: links-to-writing,
-    set-label: set-label,
-  )
-}
-
-// Create a page with a table with only the left column
-#let table-left(words, theme, links-to-writing: true, set-label: false) = {
-  let set-label = if set-label { "left" } else { none }
-  table-alternate(
-    words-masked(words, mask: "right"),
-    theme,
-    links: links-to-writing,
-    set-label: set-label,
-  )
-}
-
-// Create a page with a table with only the right column
-#let table-right(words, theme, links-to-writing: true, set-label: false) = {
-  let set-label = if set-label { "right" } else { none }
-  table-alternate(
-    words-masked(words, mask: "left"),
-    theme,
-    links: links-to-writing,
-    set-label: set-label,
+    links-to-writing: links-to-writing,
+    attach-label: label-name,
   )
 }
 
@@ -99,9 +88,8 @@
   word-pair,
   num_lines: 4,
   theme,
-  labels: true,
-  backlinks: false,
-  backlink-target: "full",
+  create-backlinks: false,
+  backlink-target: none,
 ) = {
   set table(
     fill: (_, y) => {
@@ -112,14 +100,17 @@
 
   let (word, translation) = word-pair
 
-  let www = if (backlinks == false) { [#translation] } else {
+  let translation-cell = if create-backlinks and backlink-target != none {
     [#translation #h(1fr) #link(label(backlink-target), [#sym.arrow.r.turn]) #h(
         2em,
-      ) ]
+      )]
+  } else {
+    [#translation]
   }
+
   let lines = (
-    [#h(1em) #word #if labels { label("writing-" + str(index)) }],
-    www,
+    [#h(1em) #word #label("writing-" + str(index))],
+    translation-cell,
   )
 
   for _ in range(num_lines) {
@@ -145,9 +136,8 @@
   words,
   num-writing-lines,
   theme,
-  labels: true,
-  backlinks: false,
-  backlink-target: "full",
+  create-backlinks: false,
+  backlink-target: none,
 ) = {
   for (i, word-pair) in words.enumerate() {
     writing-table(
@@ -155,8 +145,7 @@
       word-pair,
       num_lines: num-writing-lines,
       theme,
-      labels: labels,
-      backlinks: backlinks,
+      create-backlinks: create-backlinks,
       backlink-target: backlink-target,
     )
   }
