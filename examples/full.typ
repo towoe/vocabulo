@@ -13,7 +13,7 @@
 #show: vocabulo(
   words,
   ("English", "Deutsch"),
-  format: "rmpp",
+  format: ("remarkable", "paper-pro"),
   flipped: true,
   num-writing-lines: 6,
   bar-pos: "left",
