@@ -1,7 +1,7 @@
 #let vocabulo(
   words,
   langs,
-  format: "rmpp",
+  format: ("remarkable", "paper-pro"),
   flipped: false,
   num-writing-lines: 4,
   bar-pos: "top",
@@ -10,23 +10,31 @@
   links: ("to-writing", "to-right"),
   sections: ("outline", "left", "full", "right", "writing"),
 ) = {
-  import "src/lib.typ": (
-    dev-format, shuffle-words, table-vocab, tables-writing, themes,
-  )
+  import "@preview/slate-geometry:0.1.0": get-size, get-toolbar
+  import "src/lib.typ": shuffle-words, table-vocab, tables-writing, themes
 
-  let specs = dev-format.at(format, default: none)
   // Create a page matching the device size
 
   // No margin by default, add extra space for an optional bar
   let margin = (top: 0pt, bottom: 0pt, left: 0pt, right: 0pt)
-  if specs != none and bar-pos != none {
-    margin.insert(bar-pos, specs.bar)
+  if type(format) == array and bar-pos != none {
+    let toolbar-size = get-toolbar(format.first(), format.last())
+    if toolbar-size != none {
+      margin.insert(bar-pos, toolbar-size)
+    }
   }
 
   // Create parameters for page configuration
-  let page-params = if specs != none {
+  let page-params = if type(format) == array {
     // Custom device format with explicit dimensions
-    (width: specs.width, height: specs.height, margin: margin, flipped: flipped)
+    let device-size = get-size(format.first(), format.last())
+
+    (
+      width: device-size.at(0),
+      height: device-size.at(1),
+      margin: margin,
+      flipped: flipped,
+    )
   } else {
     // Standard paper size - let Typst handle it
     (paper: format, margin: margin, flipped: flipped)

@@ -113,8 +113,8 @@ also work across multiple pages.
 
 - `words` (array): Vocabulary pairs loaded from CSV. Each pair should contain two columns: the word in the learning language and its translation in the native language.
 - `langs` (tuple): A pair of language names as `(learning-language, native-language)`.
-- `format` (string, default: `"rmpp"`): Device or paper format. Can be:
-  - Custom device formats: `"rmpp"`, `"rmpm"`, `"rm2"`, `"apple_ipad_11"`
+- `format` (string or tuple, default: `("remarkable", "paper-pro")`): Device or paper format. Can be:
+  - Tuple format: `(manufacturer, model)` e.g., `("remarkable", "paper-pro")`, `("boox", "note-air5-c")`. See [@preview/slate-geometry](https://github.com/towoe/slate-geometry) for all available devices.
   - Standard paper sizes: `"a4"`, `"a5"`, `"a6"`, `"letter"`, etc.
 - `flipped` (boolean, default: `false`): Rotate the page 90 degrees (landscape orientation)
 - `num-writing-lines` (integer, default: `4`): Number of practice lines per word in the writing section

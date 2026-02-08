@@ -1,4 +1,3 @@
-#import "devices.typ": dev-format
 #import "themes.typ": themes
 
 // 2-column table with alternating row colors
