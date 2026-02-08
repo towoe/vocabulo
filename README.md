@@ -120,7 +120,7 @@ also work across multiple pages.
 - `num-writing-lines` (integer, default: `4`): Number of practice lines per word in the writing section
 - `bar-pos` (string, default: `"top"`): Position of the device bar/margin. Options: `"top"`, `"bottom"`, `"left"`, `"right"`, or `none`
 - `seed` (integer, optional): Random seed for shuffling word order. If provided, words will be shuffled consistently. Try different values to change the order.
-- `theme` (string or dictionary, default: `"default"`): Color theme for the document
+- `theme` (string or dictionary, default: `"light"`): Color theme for the document
 
 
 ### Themes
