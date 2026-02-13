@@ -7,7 +7,7 @@ Based on a list of training words, the template creates an overview of the word
 pairs. It also creates a section for each word pair with space to practice the
 word.
 
-![thumbnail](thumbnail.png)
+![minimal_overview](examples/minimal_overview.png)
 
 ### Features
 
