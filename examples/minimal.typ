@@ -1,4 +1,4 @@
-#import "@preview/vocabulo:0.1.0": *
+#import "@preview/vocabulo:0.2.0": *
 
 #let words = (
   ("hello", "hallo"),

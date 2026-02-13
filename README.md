@@ -20,11 +20,11 @@ word.
 
 ### Basic Example
 
-To get started use `typst init '@preview/vocabulo:0.1.0'`.
+To get started use `typst init '@preview/vocabulo:0.2.0'`.
 Then edit the `main.typ` and specify the words you want to train.
 
 ```typst
-#import "@preview/vocabulo:0.1.0": *
+#import "@preview/vocabulo:0.2.0": *
 
 #let words = (
   ("hello", "hallo"),
@@ -47,7 +47,7 @@ Paper Pro.
 Define the `main.typ` file:
 
 ```typst
-#import "@preview/vocabulo:0.1.0": *
+#import "@preview/vocabulo:0.2.0": *
 
 #let filepath = sys.inputs.at("words", default: "words.csv")
 #let words = csv(filepath)
