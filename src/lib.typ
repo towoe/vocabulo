@@ -100,7 +100,9 @@
   let (word, translation) = word-pair
 
   let translation-cell = if create-backlinks and backlink-target != none {
-    [#translation #h(1fr) #link(label(backlink-target), [#sym.arrow.r.turn]) #h(
+    [#translation #h(1fr) #link(label(backlink-target), [#set text(
+          font: "New Computer Modern",
+        ); #sym.arrow.l.turn]) #h(
         2em,
       )]
   } else {
